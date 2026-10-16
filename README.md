@@ -120,6 +120,8 @@ Successful remote root connections were observed from multiple external IP addre
 
 ![Remote MySQL authentication](images/02-remote-mysql-authentication.png)
 
+![Successful and failed privileged MySQL logons](images/08-mysql-successful-and-failed-logons.png)
+
 ---
 
 ## 3. Identify Destructive Database Activity
@@ -216,7 +218,7 @@ The logs showed:
 - Destructive commands
 - Recovery/ransom object creation
 
-![Enumeration and SELECT activity](images/04-enumeration-select-activity.png)
+![MySQL database enumeration and deletion](images/12-mysql-database-enumeration-and-deletion.png)
 
 ---
 
@@ -241,9 +243,11 @@ DeviceNetworkEvents
 
 ### Finding
 
-`DeviceNetworkEvents` was not supplied in the reviewed evidence set.
+A separate `DeviceNetworkEvents` screenshot shows inbound TCP connections associated with `mysqld.exe`. These records support the presence of network activity but do not establish outbound data transfer or exfiltration. The full network-event export was not part of the original reviewed evidence set.
 
-Because network telemetry was unavailable, confirmed outbound data transfer or exfiltration could not be determined.
+![MySQL inbound network connections](images/05-mysql-inbound-network-connections.png)
+
+Confirmed outbound data transfer or exfiltration remains **not determined from available logs**.
 
 ---
 
@@ -288,7 +292,7 @@ MySQLAudit_CL
 | order by TimeGenerated desc
 ```
 
-![IOC hunt](images/05-ioc-hunt.png)
+![MySQL authentication evidence from 77.90.185.30](images/06-mysql-authentication-77-90-185-30.png)
 
 ---
 
@@ -330,7 +334,7 @@ MySQLAudit_CL
 | order by TimeGenerated desc
 ```
 
-![Timeline evidence](images/06-timeline-evidence.png)
+![MySQL authentication evidence from 213.209.159.115](images/07-mysql-authentication-213-209-159-115.png)
 
 ---
 
@@ -359,6 +363,8 @@ The evidence does not establish whether the cause was:
 Evidence of Windows exploitation before the database compromise could also not be established.
 
 ---
+
+![MySQL privileged account review](images/04-mysql-privileged-account-review.png)
 
 ## 9. Review Privileged MySQL Authentication
 
@@ -423,7 +429,7 @@ No clear attacker-created Windows process was identified during the core databas
 
 The processes observed near the event were consistent with Microsoft Defender / SenseIR collection activity.
 
-![Host process review](images/07-host-process-review.png)
+![PowerShell process execution](images/09-powershell-process-execution.png)
 
 ---
 
@@ -603,12 +609,7 @@ No confirmed ransom-note file, SQL dump, or malicious file artifact was identifi
 
 ## Evidence Not Supplied
 
-The following data sources were not supplied:
-
-- `DeviceNetworkEvents`
-- `NTANetAnalytics`
-
-Because those network sources were unavailable, confirmed outbound data transfer or exfiltration could not be established.
+The original evidence set did not include a full `DeviceNetworkEvents` export or `NTANetAnalytics` data. A separate screenshot shows inbound MySQL-related network events, but does not demonstrate outbound transfer. Confirmed exfiltration remains **not determined from available logs**.
 
 ---
 
@@ -634,7 +635,7 @@ DeviceFileEvents
 
 No confirmed ransom-note file, SQL dump, or malicious file artifact was identified.
 
-![Device file events](images/08-device-file-events.png)
+![No results returned for the selected investigation query](images/11-no-results-investigation-query.png)
 
 ---
 
@@ -660,7 +661,7 @@ DeviceRegistryEvents
 
 No confirmed attacker persistence mechanism was identified in the reviewed registry activity.
 
-![Registry review](images/09-registry-review.png)
+![Windows registry activity](images/10-windows-registry-activity.png)
 
 ---
 
@@ -697,7 +698,7 @@ Alert on:
 - Unexpected changes to privileged database accounts
 - MySQL connections from unapproved external IP addresses
 
-![Detection hunt](images/10-detection-hunt.png)
+![MySQL database enumeration and deletion](images/12-mysql-database-enumeration-and-deletion.png)
 
 ---
 
@@ -1031,7 +1032,7 @@ The following limitations prevented stronger attribution or reconstruction:
 - No source IP was directly tied to creation of the privileged account.
 - No suspicious executable hash was available for IOC pivoting.
 - No evidence establishes the exact successful initial-access protocol.
-- `DeviceNetworkEvents` and `NTANetAnalytics` were not supplied for the MySQL incident review.
+- A full `DeviceNetworkEvents` export and `NTANetAnalytics` were not supplied for the MySQL incident review; a separate screenshot shows inbound MySQL connections.
 - Confirmed data exfiltration could not be established from the available telemetry.
 
 ---
@@ -1068,29 +1069,25 @@ The exact initial-access method, attacker source for account creation, and post-
 # Repository Structure
 
 ```text
-secops-incident-response/
-│
+SecOps-Incident-Report/
 ├── README.md
-│
-├── Cyber-Defense-Final-Report.pdf
-│
 └── images/
     ├── 01-suspicious-mysql-activity.png
     ├── 02-remote-mysql-authentication.png
     ├── 03-destructive-database-activity.png
-    ├── 04-enumeration-select-activity.png
-    ├── 05-ioc-hunt.png
-    ├── 06-timeline-evidence.png
-    ├── 07-host-process-review.png
-    ├── 08-device-file-events.png
-    ├── 09-registry-review.png
-    └── 10-detection-hunt.png
+    ├── 04-mysql-privileged-account-review.png
+    ├── 05-mysql-inbound-network-connections.png
+    ├── 06-mysql-authentication-77-90-185-30.png
+    ├── 07-mysql-authentication-213-209-159-115.png
+    ├── 08-mysql-successful-and-failed-logons.png
+    ├── 09-powershell-process-execution.png
+    ├── 10-windows-registry-activity.png
+    ├── 11-no-results-investigation-query.png
+    └── 12-mysql-database-enumeration-and-deletion.png
 ```
 
 ---
 
 ## Full Report
 
-The complete formal SOC incident response and DFIR report is included in this repository:
-
-`Cyber-Defense-Final-Report.pdf`
+The full formal SOC incident response and DFIR report may be added to the repository as `Cyber-Defense-Final-Report.pdf`.
