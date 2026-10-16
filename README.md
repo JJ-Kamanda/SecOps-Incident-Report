@@ -78,7 +78,7 @@ The search identified:
 - Cryptocurrency payment instructions
 - Destructive activity affecting multiple databases
 
-![Suspicious MySQL activity](images/01-suspicious-mysql-activity.png)
+![Destructive database activity](images/03-destructive-database-activity.png)
 
 ---
 
@@ -154,7 +154,7 @@ Confirmed affected databases included:
 - `world`
 - `recover_your_data`
 
-![Destructive database activity](images/03-destructive-database-activity.png)
+![Suspicious MySQL activity](images/01-suspicious-mysql-activity.png)
 
 ---
 
